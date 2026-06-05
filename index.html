@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Το Πρόγραμμά μου 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2d6a4f;
+    --green-light: #d8f3dc;
+    --green-mid: #95d5b2;
+    --green-dark: #1b4332;
+    --amber: #e76f51;
+    --red-light: #fde8e8;
+    --red: #c0392b;
+    --blue: #2563a8;
+    --blue-light: #e8f0fb;
+    --purple: #7b5ea7;
+    --purple-light: #f0ebff;
+    --gray: #f5f5f0;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --border: #ddd;
+    --white: #ffffff;
+    --radius: 14px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Source Sans 3', sans-serif; font-size: 20px; line-height: 1.75; color: var(--text); background: #f7f7f3; }
+
+  .site-header { background: var(--green-dark); color: white; padding: 2rem 1.5rem 1.5rem; text-align: center; }
+  .site-header h1 { font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .site-header p { font-size: 1.05rem; opacity: 0.85; }
+
+  .safety-box { background: var(--red-light); border-left: 5px solid var(--red); border-radius: var(--radius); padding: 1.4rem 1.6rem; margin: 1.5rem auto; max-width: 760px; }
+  .safety-title { font-size: 1.15rem; font-weight: 700; color: var(--red); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 8px; }
+  .safety-box ul { padding-left: 1.2rem; }
+  .safety-box li { color: #7b1c1c; margin-bottom: 0.4rem; font-size: 1.05rem; }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1rem 4rem; }
+
+  /* PROGRESS */
+  .progress-section { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); box-shadow: var(--shadow); margin: 1.2rem 0; overflow: hidden; }
+  .progress-header { background: var(--green-light); padding: 0.9rem 1.4rem; font-weight: 700; font-size: 1.05rem; color: var(--green-dark); border-bottom: 1px solid #b7e4c7; display: flex; align-items: center; justify-content: space-between; }
+  .progress-body { padding: 1rem 1.4rem; }
+  .progress-week-row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
+  .progress-week-label { font-size: 0.9rem; font-weight: 700; color: var(--text-soft); width: 80px; flex-shrink: 0; }
+  .progress-days { display: flex; gap: 8px; flex-wrap: wrap; }
+  .day-dot { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border); background: var(--gray); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-direction: column; gap: 1px; user-select: none; }
+  .day-dot .dot-emoji { font-size: 1rem; }
+  .day-dot .dot-label { font-size: 0.6rem; line-height: 1; font-weight: 700; color: var(--text-soft); }
+  .day-dot.done-a { background: var(--green); border-color: var(--green); }
+  .day-dot.done-a .dot-label { color: white; }
+  .day-dot.done-b { background: var(--blue); border-color: var(--blue); }
+  .day-dot.done-b .dot-label { color: white; }
+  .day-dot.done-c { background: var(--purple); border-color: var(--purple); }
+  .day-dot.done-c .dot-label { color: white; }
+  .day-dot.type-a { border-color: var(--green); }
+  .day-dot.type-b { border-color: var(--blue); }
+  .day-dot.type-c { border-color: var(--purple); }
+  .progress-bar-wrap { height: 10px; background: #eee; border-radius: 999px; overflow: hidden; margin-top: 0.3rem; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green-mid), var(--green)); border-radius: 999px; transition: width 0.4s ease; }
+  .progress-stats { font-size: 0.9rem; color: var(--text-soft); margin-top: 0.5rem; }
+  .progress-stats span { color: var(--green-dark); font-weight: 700; }
+  .print-btn { display: flex; align-items: center; gap: 8px; background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 0.45rem 0.9rem; font-size: 0.88rem; font-weight: 600; color: var(--text-soft); cursor: pointer; font-family: inherit; }
+  .print-btn:hover { border-color: var(--green); color: var(--green); }
+
+  /* LOG */
+  .log-section { background: var(--white); border-radius: var(--radius); border: 1.5px solid #dce8f5; box-shadow: var(--shadow); margin: 1.2rem 0; overflow: hidden; }
+  .log-header { background: var(--blue-light); padding: 0.9rem 1.4rem; font-weight: 700; font-size: 1.05rem; color: #1a3a6e; border-bottom: 1px solid #c5d8f2; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .log-toggle { font-size: 1.2rem; transition: transform 0.2s; display: inline-block; }
+  .log-toggle.open { transform: rotate(180deg); }
+  .log-body { padding: 1rem 1.4rem; display: none; }
+  .log-body.open { display: block; }
+  .log-form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; align-items: flex-end; }
+  .log-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 90px; }
+  .log-field label { font-size: 0.82rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+  .log-field input, .log-field select { border: 1.5px solid var(--border); border-radius: 8px; padding: 0.55rem 0.8rem; font-size: 1rem; font-family: inherit; color: var(--text); background: var(--gray); }
+  .log-field input:focus, .log-field select:focus { outline: none; border-color: var(--green); }
+  .log-btn { background: var(--green); color: white; border: none; border-radius: 8px; padding: 0.6rem 1.2rem; font-size: 1rem; font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap; }
+  .log-btn:hover { background: var(--green-dark); }
+  .mood-bar { background: #fffbf0; border: 1.5px solid #f0c040; border-radius: 10px; padding: 0.7rem 1rem; margin-top: 0.8rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .mood-label { font-size: 0.88rem; font-weight: 700; color: #5a4000; flex-shrink: 0; }
+  .mood-options { display: flex; gap: 8px; flex-wrap: wrap; }
+  .mood-btn { background: white; border: 2px solid #f0c040; border-radius: 8px; padding: 4px 10px; font-size: 1.1rem; cursor: pointer; transition: all 0.15s; line-height: 1.4; }
+  .mood-btn:hover, .mood-btn.selected { background: #fff8e1; border-color: #e0a000; transform: scale(1.1); }
+  .mood-btn .mood-text { font-size: 0.72rem; display: block; color: #5a4000; font-weight: 600; text-align: center; }
+  .log-entries { list-style: none; }
+  .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f0f0ec; font-size: 0.95rem; gap: 8px; }
+  .log-entry:last-child { border-bottom: none; }
+  .log-entry-info { flex: 1; }
+  .log-entry-date { font-size: 0.8rem; color: var(--text-soft); }
+  .log-entry-values { font-weight: 700; color: var(--green-dark); }
+  .log-entry-feeling { font-size: 1.2rem; }
+  .log-entry-del { background: none; border: none; color: #ccc; font-size: 1.1rem; cursor: pointer; padding: 0 4px; }
+  .log-entry-del:hover { color: var(--red); }
+  .log-empty { font-size: 0.95rem; color: var(--text-soft); font-style: italic; }
+
+  /* WEEK TABS */
+  .week-tabs { display: flex; gap: 10px; margin: 1.5rem 0 1rem; }
+  .week-tab { flex: 1; padding: 0.9rem; border-radius: var(--radius); border: 2px solid var(--border); background: var(--white); font-size: 1rem; font-weight: 600; cursor: pointer; text-align: center; color: var(--text-soft); transition: all 0.2s; font-family: inherit; }
+  .week-tab.active { background: var(--green); border-color: var(--green); color: white; }
+  .week-section { display: none; }
+  .week-section.active { display: block; }
+
+  .week-intro { background: var(--green-light); border-radius: var(--radius); padding: 1.2rem 1.5rem; margin-bottom: 1.4rem; border-left: 4px solid var(--green); }
+  .week-intro p { font-size: 1rem; color: #1b4332; }
+  .week-intro strong { font-weight: 700; }
+
+  /* DAY TYPE LEGEND */
+  .day-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 1.4rem; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+  /* DAY CARDS */
+  .day-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1.4rem; overflow: hidden; border: 1.5px solid var(--border); }
+  .day-header { color: white; padding: 1rem 1.4rem; display: flex; align-items: center; justify-content: space-between; }
+  .day-header.type-a { background: var(--green); }
+  .day-header.type-b { background: var(--blue); }
+  .day-header.type-c { background: var(--purple); }
+  .day-name { font-size: 1.2rem; font-weight: 700; }
+  .day-theme { font-size: 0.9rem; opacity: 0.85; }
+  .day-badge { background: rgba(255,255,255,0.22); border-radius: 999px; padding: 4px 12px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+
+  .rest-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1.4rem; padding: 1.2rem 1.4rem; border: 1.5px dashed var(--border); text-align: center; }
+  .rest-title { font-size: 1.1rem; font-weight: 700; color: var(--text-soft); margin-bottom: 0.3rem; }
+  .rest-card p { font-size: 0.95rem; color: var(--text-soft); }
+
+  .phase-block { padding: 0.9rem 1.4rem; border-bottom: 1px solid #f0f0ec; }
+  .phase-block.warmup { background: #fffbf0; }
+  .phase-block.cooldown { background: #f0f7ff; }
+  .phase-block.stretch-bg { background: #f5f0ff; }
+  .phase-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-soft); margin-bottom: 0.4rem; }
+  .phase-block p { font-size: 1rem; color: var(--text); }
+
+  .exercises-block { padding: 1rem 1.4rem; }
+  .exercises-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--green-dark); margin-bottom: 0.8rem; }
+  .exercises-title.blue { color: var(--blue); }
+  .exercises-title.purple { color: var(--purple); }
+
+  .exercise-item { border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; }
+  .exercise-main { display: flex; align-items: flex-start; }
+  .exercise-info { flex: 1; padding: 1rem 1.2rem; }
+  .exercise-name { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .exercise-sets { display: inline-block; font-size: 0.92rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; margin-bottom: 0.5rem; }
+  .sets-green { background: var(--green-light); color: var(--green-dark); }
+  .sets-blue { background: #dbeafe; color: #1e3a8a; }
+  .sets-purple { background: var(--purple-light); color: var(--purple); }
+  .exercise-desc { font-size: 1rem; color: var(--text-soft); line-height: 1.6; }
+  .exercise-tip { font-size: 0.95rem; border-radius: 6px; padding: 0.5rem 0.8rem; margin-top: 0.5rem; }
+  .tip-green { color: var(--green-dark); background: var(--green-light); }
+  .tip-blue { color: #1e3a8a; background: #dbeafe; }
+  .tip-purple { color: var(--purple); background: var(--purple-light); }
+  .tip-red { color: #7b1c1c; background: var(--red-light); }
+  .exercise-tip strong { font-weight: 700; }
+
+  .video-col { width: 100px; min-width: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f9f9f6; border-left: 1.5px solid var(--border); padding: 0.8rem 0.5rem; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+  .video-col:hover { background: var(--green-light); }
+  .video-icon { width: 44px; height: 44px; background: var(--amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+  .video-icon svg { width: 20px; height: 20px; fill: white; }
+  .video-label { font-size: 0.78rem; font-weight: 700; color: var(--amber); text-align: center; line-height: 1.3; }
+
+  .notes-block { background: #f0f7ff; border-top: 1px solid #dce8f5; padding: 1rem 1.4rem; }
+  .notes-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2060a0; margin-bottom: 0.6rem; }
+  .notes-block ul { padding-left: 1.2rem; }
+  .notes-block li { font-size: 0.98rem; color: #1a3a5c; margin-bottom: 0.35rem; }
+
+  /* REVIEW */
+  .review-card { background: var(--white); border: 2px solid #f0c040; border-radius: var(--radius); box-shadow: var(--shadow); margin: 1.5rem 0; overflow: hidden; }
+  .review-card-header { background: #fff8e1; padding: 1rem 1.4rem; font-size: 1.1rem; font-weight: 700; color: #5a4000; border-bottom: 1px solid #f0c040; }
+  .review-card-body { padding: 1rem 1.4rem; }
+  .review-card-body > p { font-size: 1rem; color: var(--text-soft); margin-bottom: 0.8rem; }
+  .review-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.75rem; }
+  .review-check { width: 28px; height: 28px; border: 2px solid #ccc; border-radius: 5px; flex-shrink: 0; margin-top: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.15s; }
+  .review-check.done { background: var(--green); border-color: var(--green); color: white; }
+  .review-text { font-size: 1rem; color: var(--text); }
+  .review-text small { display: block; font-size: 0.88rem; color: var(--text-soft); }
+  .review-result { margin-top: 1rem; padding: 0.9rem 1.1rem; border-radius: 10px; font-size: 1rem; font-weight: 600; display: none; }
+  .review-result.green-result { background: var(--green-light); color: var(--green-dark); display: block; }
+  .review-result.stay-result { background: #fff0eb; color: #8b3a00; display: block; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: white; border-radius: var(--radius); max-width: 640px; width: 100%; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+  .modal-header { background: var(--green-dark); color: white; padding: 1rem 1.4rem; display: flex; align-items: center; justify-content: space-between; }
+  .modal-header h3 { font-size: 1.15rem; font-weight: 700; }
+  .modal-close { background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; line-height: 1; padding: 0 4px; }
+  .modal-body { padding: 1.2rem 1.4rem; }
+  .modal-body p { font-size: 1rem; color: var(--text-soft); margin-bottom: 1rem; }
+  .video-links-list { list-style: none; }
+  .video-links-list li { margin-bottom: 0.6rem; }
+  .video-links-list a { display: flex; align-items: center; gap: 10px; text-decoration: none; background: var(--gray); border-radius: 8px; padding: 0.8rem 1rem; color: var(--green-dark); font-weight: 600; font-size: 1rem; transition: background 0.15s; }
+  .video-links-list a:hover { background: var(--green-light); }
+  .video-links-list a span.yt { background: #ff0000; color: white; font-size: 0.75rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+
+  @media (max-width: 500px) {
+    .site-header h1 { font-size: 1.5rem; }
+    .video-col { width: 80px; min-width: 80px; }
+    body { font-size: 19px; }
+    .day-dot { width: 38px; height: 38px; }
+    .week-tab { font-size: 0.88rem; padding: 0.7rem 0.4rem; }
+  }
+  @media print {
+    .week-tabs, .print-btn, .video-col, .modal-overlay, .progress-section, .log-section { display: none !important; }
+    .week-section { display: block !important; }
+    body { font-size: 16px; background: white; }
+    .day-card, .rest-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <h1>🌸 Το Πρόγραμμά μου</h1>
+  <p>Φάση 1 — Εβδομάδες 1 &amp; 2 &nbsp;·&nbsp; 3 μέρες την εβδομάδα, ~30 λεπτά</p>
+</div>
+
+<div class="container">
+
+  <div class="safety-box">
+    <div class="safety-title">⚠️ Πριν ξεκινήσεις κάθε φορά — ΣΗΜΑΝΤΙΚΟ</div>
+    <ul>
+      <li><strong>Μέτρησε πάντα την πίεσή σου πριν ξεκινήσεις.</strong> Αν η μεγάλη τιμή είναι πάνω από 160 — ξεκούραση σήμερα, χωρίς εξαιρέσεις.</li>
+      <li><strong>Φόρα πάντα αθλητικά παπούτσια</strong> — ποτέ παντόφλες κατά τη γυμναστική.</li>
+      <li><strong>Σταμάτα αμέσως</strong> αν νιώσεις ζαλάδα, πόνο στο στήθος ή δυσκολία στην αναπνοή.</li>
+      <li>Κάνε πάντα το <strong>ζέσταμα</strong> πριν και την <strong>ψύξη</strong> μετά — δεν τα παραλείπουμε ποτέ.</li>
+      <li>Λόγω των αντιπηκτικών: <strong>αποφεύγουμε χτυπήματα και πτώσεις</strong> — πάντα με το ένα χέρι στον τοίχο ή στην καρέκλα.</li>
+    </ul>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <span>📊 Πρόοδός μου</span>
+      <button class="print-btn" onclick="window.print()">🖨️ Εκτύπωση</button>
+    </div>
+    <div class="progress-body">
+      <div style="margin-bottom:0.7rem;">
+        <div class="day-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div><span style="color:var(--green-dark)">Δύναμη &amp; Ισορροπία</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div><span style="color:var(--blue)">Περπάτημα</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div><span style="color:var(--purple)">Stretching</span></div>
+        </div>
+      </div>
+      <div class="progress-week-row">
+        <div class="progress-week-label">Εβδ. 1</div>
+        <div class="progress-days" id="week1dots"></div>
+      </div>
+      <div class="progress-week-row">
+        <div class="progress-week-label">Εβδ. 2</div>
+        <div class="progress-days" id="week2dots"></div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="progress-stats" id="progressStats">Πάτα σε μια μέρα για να τη σημειώσεις ως ολοκληρωμένη!</div>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="log-section">
+    <div class="log-header" onclick="toggleLog()">
+      <span>💊 Ημερολόγιο Πίεσης &amp; Αίσθησης</span>
+      <span class="log-toggle" id="logToggle">▼</span>
+    </div>
+    <div class="log-body" id="logBody">
+      <div class="log-form">
+        <div class="log-field" style="max-width:105px;">
+          <label>Πριν</label>
+          <input type="text" id="logBefore" placeholder="135/98" maxlength="8">
+        </div>
+        <div class="log-field" style="max-width:105px;">
+          <label>Μετά</label>
+          <input type="text" id="logAfter" placeholder="140/95" maxlength="8">
+        </div>
+        <div class="log-field" style="min-width:120px;">
+          <label>Μέρα</label>
+          <select id="logDay">
+            <option>Εβδ.1 — Δύναμη</option>
+            <option>Εβδ.1 — Περπάτημα</option>
+            <option>Εβδ.1 — Stretching</option>
+            <option>Εβδ.2 — Δύναμη</option>
+            <option>Εβδ.2 — Περπάτημα</option>
+            <option>Εβδ.2 — Stretching</option>
+          </select>
+        </div>
+        <div class="log-field" style="max-width:95px;">
+          <label>Δυσκολία</label>
+          <select id="logDiff">
+            <option value="1">1 — εύκολο</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5 — μέτριο</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 — δύσκολο</option>
+          </select>
+        </div>
+        <button class="log-btn" onclick="addLogEntry()">➕ Αποθήκευση</button>
+      </div>
+      <div class="mood-bar">
+        <div class="mood-label">Πώς νιώθω σήμερα:</div>
+        <div class="mood-options">
+          <button class="mood-btn" onclick="selectMood(this,'😄')">😄<span class="mood-text">Πολύ καλά</span></button>
+          <button class="mood-btn" onclick="selectMood(this,'🙂')">🙂<span class="mood-text">Καλά</span></button>
+          <button class="mood-btn" onclick="selectMood(this,'😐')">😐<span class="mood-text">Έτσι κι έτσι</span></button>
+          <button class="mood-btn" onclick="selectMood(this,'😴')">😴<span class="mood-text">Κουρασμένη</span></button>
+          <button class="mood-btn" onclick="selectMood(this,'😣')">😣<span class="mood-text">Άσχημα</span></button>
+        </div>
+      </div>
+      <div style="margin-top:1rem;">
+        <ul class="log-entries" id="logEntries"></ul>
+        <div class="log-empty" id="logEmpty">Δεν υπάρχουν εγγραφές ακόμα.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK TABS -->
+  <div class="week-tabs">
+    <button class="week-tab active" onclick="showWeek(1)">📅 Εβδομάδα 1</button>
+    <button class="week-tab" onclick="showWeek(2)">📅 Εβδομάδα 2</button>
+  </div>
+
+  <!-- ===== WEEK 1 ===== -->
+  <div class="week-section active" id="week1">
+
+    <div class="week-intro">
+      <p><strong>Στόχος εβδομάδας 1:</strong> Να ξεκινήσουμε σωστά. Ξέρεις ήδη να περπατάς και να κινείσαι — αυτή η εβδομάδα είναι να μάθουμε τις ασκήσεις και να βρεθεί ο ρυθμός. <strong>3 μέρες, ~30 λεπτά η καθεμία.</strong> Τις υπόλοιπες μέρες κάνεις τη συνηθισμένη βόλτα σου κανονικά.</p>
+    </div>
+
+    <!-- DAY A W1 — ΔΥΝΑΜΗ -->
+    <div class="day-card">
+      <div class="day-header type-a">
+        <div><div class="day-name">Μέρα Α — Δύναμη &amp; Ισορροπία</div><div class="day-theme">Ασκήσεις με καρέκλα &amp; τοίχο — χωρίς πάτωμα</div></div>
+        <div class="day-badge">~30 λεπτά</div>
+      </div>
+
+      <div class="phase-block warmup">
+        <div class="phase-label">🔆 Ζέσταμα — 5 λεπτά</div>
+        <p>Κάθισε σε σταθερή καρέκλα. Κάνε <strong>5 βαθιές αναπνοές</strong> αργά. Μετά σήκω αργά και κάνε <strong>βήματα στη θέση 2 λεπτά</strong>, σηκώνοντας τα γόνατα. Τέλος, <strong>κύκλοι με τους ώμους προς τα πίσω — 10 φορές</strong>. Μην βιάζεσαι.</p>
+      </div>
+
+      <div class="exercises-block">
+        <div class="exercises-title">🏋️ Ασκήσεις</div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Σηκωθείτε – Καθίστε από καρέκλα</div>
+              <div class="exercise-sets sets-green">3 σετ × 10 επαναλήψεις · ξεκούραση 45 δευτ.</div>
+              <div class="exercise-desc">Κάθισε στο μπροστινό μέρος της καρέκλας, πλάτη ίσια. Γείρε λίγο μπροστά και σήκω αργά — μέτρα μέχρι το 3 ψηλά. Κάθισε πάλι αργά, ελέγχοντας την κίνηση — μέτρα μέχρι το 3 κάτω. Χρησιμοποίησε τα χέρια αν χρειαστεί.</div>
+              <div class="exercise-tip tip-green"><strong>Γιατί:</strong> Η πιο σημαντική άσκηση για αυτονομία — δυναμώνει τους μηρούς και βοηθά να σηκώνεσαι εύκολα από παντού.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Σηκωθείτε – Καθίστε από Καρέκλα', 'sit_to_stand'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Άρση στις μύτες των ποδιών (ορθιαστά)</div>
+              <div class="exercise-sets sets-green">3 σετ × 12 επαναλήψεις · ξεκούραση 30 δευτ.</div>
+              <div class="exercise-desc">Στάσου με <strong>και τα δύο χέρια στον τοίχο</strong>. Σήκωσε αργά τις φτέρνες ψηλά — κράτα 2 δευτερόλεπτα στην κορυφή — κατέβασε αργά. Γόνατα ίσια όλη την ώρα.</div>
+              <div class="exercise-tip tip-green"><strong>Γιατί:</strong> Δυναμώνει τις γάμπες, βοηθά την κυκλοφορία και μειώνει το πρήξιμο των ποδιών στο τέλος της μέρας.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Άρση στις Μύτες (Calf Raises)', 'calf_raises'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Άρση γονάτου (καθιστά)</div>
+              <div class="exercise-sets sets-green">2 σετ × 12 επαναλήψεις / πόδι · ξεκούραση 30 δευτ.</div>
+              <div class="exercise-desc">Κάθισε ίσια. Σήκωσε αργά το δεξί γόνατο — κράτα 2 δευτερόλεπτα — κατέβασε αργά. Κάνε 12 με το δεξί, μετά 12 με το αριστερό. Ανέπνεε ομαλά.</div>
+              <div class="exercise-tip tip-green"><strong>Προσοχή:</strong> Μην κρατάς την αναπνοή. Αν πονέσει το δεξί πέλμα, κάνε μόνο το αριστερό σήμερα.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Άρση Γονάτου Καθιστά', 'knee_lifts'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Ισορροπία σε ένα πόδι</div>
+              <div class="exercise-sets sets-green">2 σετ × 20 δευτερόλεπτα / πόδι</div>
+              <div class="exercise-desc">Στάσου δίπλα στον τοίχο με <strong>το ένα χέρι σε επαφή με τον τοίχο</strong> — δεν χρειάζεται να πιέζεις, αρκεί να είναι εκεί για ασφάλεια. Σήκωσε αργά το ένα πόδι λίγα εκατοστά. Κοίτα ένα σταθερό σημείο μπροστά σου. 20 δευτερόλεπτα, μετά άλλαξε.</div>
+              <div class="exercise-tip tip-red"><strong>Ασφάλεια πρώτα:</strong> Λόγω αντιπηκτικών, το χέρι πάντα στον τοίχο. Καμία «δοκιμή» χωρίς στήριξη.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Ισορροπία σε Ένα Πόδι', 'single_leg_balance'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="phase-block cooldown">
+        <div class="phase-label">❄️ Ψύξη — 5 λεπτά</div>
+        <p>Κάθισε στην καρέκλα. <strong>5 βαθιές αναπνοές</strong> αργά. Τέντωσε τα πόδια μπροστά — κράτα 20 δευτ. Κάνε κυκλικές κινήσεις αστραγάλων 10 φορές κάθε πόδι (βοηθάει το πρήξιμο). Μέτρα πίεση 10 λεπτά μετά.</p>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-title">📝 Σημειώσεις Μέρα Α</div>
+        <ul>
+          <li>Μέτρα πίεση <strong>πριν</strong> και <strong>10 λεπτά μετά</strong> — γράψε στο ημερολόγιο παραπάνω.</li>
+          <li>Αν η πίεση μετά ανέβει πάνω από 170 — ξεκούραση και ενημέρωσε τον γιατρό.</li>
+          <li>Αν κουραστείς μετά τις 2 ασκήσεις — σταμάτα. Δεν χρειάζεται να τελειώσεις όλες.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAY B W1 — ΠΕΡΠΑΤΗΜΑ -->
+    <div class="day-card">
+      <div class="day-header type-b">
+        <div><div class="day-name">Μέρα Β — Περπάτημα με δομή</div><div class="day-theme">Η βόλτα σου, αλλά με συγκεκριμένο πλάνο</div></div>
+        <div class="day-badge">~30 λεπτά</div>
+      </div>
+
+      <div class="phase-block warmup">
+        <div class="phase-label">🔆 Ζέσταμα — 5 λεπτά</div>
+        <p>Τα πρώτα 5 λεπτά περπάτα <strong>πολύ αργά</strong> — σαν να κοιτάς βιτρίνες. Αφήσε το σώμα να ζεσταθεί.</p>
+      </div>
+
+      <div class="exercises-block">
+        <div class="exercises-title blue">🚶 Δομή Περπατήματος</div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Κύριο περπάτημα — 20 λεπτά</div>
+              <div class="exercise-sets sets-blue">Συνεχόμενα, ρυθμός άνετος</div>
+              <div class="exercise-desc">Περπάτα <strong>10 λεπτά εμπρός</strong> και μετά <strong>10 λεπτά πίσω</strong> — ή μία βόλτα στη γειτονιά. Ο κανόνας: <strong>να μπορείς να μιλάς άνετα</strong>. Αν δεν μπορείς — επιβράδυνε. Αν μπορείς να τραγουδάς — πήγαινε λίγο πιο γρήγορα.</div>
+              <div class="exercise-tip tip-blue"><strong>Στάση:</strong> Κοίτα μπροστά (όχι κάτω), πλάτη ίσια, τα χέρια κινούνται ελεύθερα. Βοηθάει τον αυχένα και τη μέση.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="phase-block cooldown" style="background:#e8f0fb;">
+        <div class="phase-label" style="color:var(--blue);">❄️ Ψύξη — 5 λεπτά</div>
+        <p>Τελευταία 5 λεπτά περπάτα <strong>πολύ αργά</strong>. Μη σταματάς απότομα — αφήσε τον καρδιακό ρυθμό να κατεβεί φυσικά. Μετά κάθισε και ξεκουράσου 5 λεπτά πριν μετρήσεις πίεση.</p>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-title">📝 Σημειώσεις Μέρα Β</div>
+        <ul>
+          <li>Περπατάς ήδη σχεδόν 1 ώρα/μέρα — αυτό είναι εξαιρετικό. Αυτή η μέρα δεν είναι επιπλέον βόλτα, είναι η <strong>δομημένη</strong> βόλτα της εβδομάδας.</li>
+          <li>Αν βρέχει: 20 λεπτά ανεβοκατέβασμα σκαλιών αργά στο σπίτι (με κιγκλίδωμα πάντα).</li>
+          <li>Δεν χρειάζεται να μετρήσεις πίεση σήμερα — εκτός αν νιώσεις κάτι διαφορετικό.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAY C W1 — STRETCHING -->
+    <div class="day-card">
+      <div class="day-header type-c">
+        <div><div class="day-name">Μέρα Γ — Stretching &amp; Χαλάρωση</div><div class="day-theme">Ήπια τεντώματα — καθιστά ή ορθιαστά, ποτέ στο πάτωμα</div></div>
+        <div class="day-badge">~20 λεπτά</div>
+      </div>
+
+      <div class="phase-block stretch-bg">
+        <div class="phase-label" style="color:var(--purple);">🔆 Ζέσταμα — 3 λεπτά</div>
+        <p>Κάθισε αναπαυτικά. <strong>5 βαθιές αναπνοές</strong> — εισπνοή 4 δευτ., εκπνοή 6 δευτ. Αυτό μόνο βοηθάει ήδη την πίεση και ηρεμεί.</p>
+      </div>
+
+      <div class="exercises-block" style="background:#fdfbff;">
+        <div class="exercises-title purple">🧘 Τεντώματα</div>
+
+        <div class="exercise-item" style="border-color:#c9b8e8;">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Αναπνοή διαφράγματος</div>
+              <div class="exercise-sets sets-purple">5 επαναλήψεις · αργά</div>
+              <div class="exercise-desc">Κάθισε ίσια. Βάλε το ένα χέρι στο στήθος και το άλλο στην κοιλιά. Εισπνοή αργά από τη μύτη για 4 δευτερόλεπτα — η κοιλιά να ανεβαίνει, το στήθος να μένει σχεδόν ακίνητο. Εκπνοή από το στόμα για 6 δευτερόλεπτα.</div>
+              <div class="exercise-tip tip-purple"><strong>Για σένα ειδικά:</strong> Μελέτες δείχνουν ότι 5 λεπτά αργής αναπνοής κατεβάζουν την πίεση 5–10 mmHg. Είναι «φάρμακο» χωρίς παρενέργειες.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Αναπνοή Διαφράγματος', 'breathing'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item" style="border-color:#c9b8e8;">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Τέντωμα αυχένα — ήπιο</div>
+              <div class="exercise-sets sets-purple">3 κατευθύνσεις × 20 δευτερόλεπτα</div>
+              <div class="exercise-desc">Κάθισε ίσια. <strong>1)</strong> Κλίσε το κεφάλι αργά προς το δεξί ώμο — κράτα 20 δευτ. <strong>2)</strong> Κλίσε προς αριστερά — κράτα 20 δευτ. <strong>3)</strong> Στρίψε αργά δεξιά μέχρι εκεί που βλέπεις — κράτα 20 δευτ., μετά αριστερά.</div>
+              <div class="exercise-tip tip-red"><strong>ΣΗΜΑΝΤΙΚΟ:</strong> Ποτέ κυκλικές κινήσεις με τον αυχένα (360°) — λόγω ιστορικού μικροεγκεφαλικών. Μόνο ήπιες κλίσεις, ποτέ πίσω.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Τέντωμα Αυχένα — Ήπιο', 'neck_stretch'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item" style="border-color:#c9b8e8;">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Τέντωμα ώμου (ήπιο)</div>
+              <div class="exercise-sets sets-purple">2 × 25 δευτερόλεπτα / ώμο</div>
+              <div class="exercise-desc">Κάθισε ή στάσου. Πέρα το δεξί σου χέρι μπροστά από το στήθος. Με το αριστερό χέρι, τράβα το ήπια προς το σώμα. Νιώσε ήπιο τέντωμα στον ώμο. Κράτα 25 δευτ. Αλλαξε.</div>
+              <div class="exercise-tip tip-red"><strong>Περιαρθρίτιδα:</strong> Αν φτάσει 3/10 πόνος — σταμάτα αμέσως. Δεν αναγκάζουμε ποτέ.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Τέντωμα Ώμου', 'shoulder_stretch'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item" style="border-color:#c9b8e8;">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Κυκλικές κινήσεις αστραγάλων</div>
+              <div class="exercise-sets sets-purple">10 κύκλοι / πόδι — καθιστά</div>
+              <div class="exercise-desc">Κάθισε ίσια. Σήκωσε λίγο το δεξί πόδι και κάνε αργούς κύκλους με τον αστράγαλο — 10 προς τη μία κατεύθυνση, 10 προς την άλλη. Μετά το αριστερό.</div>
+              <div class="exercise-tip tip-purple"><strong>Για το πρήξιμο:</strong> Βοηθάει τη φλεβική κυκλοφορία — καλύτερα να γίνεται το απόγευμα όταν τα πόδια έχουν πρηστεί.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="exercise-item" style="border-color:#c9b8e8;">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Τέντωμα μηρού (καθιστά)</div>
+              <div class="exercise-sets sets-purple">2 × 25 δευτερόλεπτα / πόδι</div>
+              <div class="exercise-desc">Κάθισε στην άκρη της καρέκλας. Τέντωσε το δεξί πόδι μπροστά, φτέρνα στο πάτωμα, μύτη προς τα πάνω. Κλίσε λίγο το σώμα μπροστά μέχρι να νιώσεις τέντωμα στο πίσω μέρος του μηρού. Κράτα 25 δευτ. Αλλαξε.</div>
+              <div class="exercise-tip tip-purple"><strong>Γιατί:</strong> Χαλαρώνει τους μηρούς που δουλεύουν πολύ στο περπάτημα και στο σήκωμα.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Τέντωμα Μηρού (καθιστά)', 'thigh_stretch'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="phase-block stretch-bg" style="border-bottom:none;">
+        <div class="phase-label" style="color:var(--purple);">🌙 Κλείσιμο — 3 λεπτά</div>
+        <p><strong>3 βαθιές αναπνοές</strong> ξανά — αργά. Αν η μέρα Γ είναι βράδυ (που σε βολεύει), αυτές οι αναπνοές βοηθούν και τον ύπνο. Μέτρα πίεση αν θέλεις.</p>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-title">📝 Σημειώσεις Μέρα Γ</div>
+        <ul>
+          <li>Αυτή η μέρα είναι η πιο ήπια — δεν πρέπει να κουραστείς. Αν νιώθεις κούραση, μείωσε τα δευτερόλεπτα παντού.</li>
+          <li>Είναι ιδανική για Σαββατοκύριακο βράδυ ή αργά μετά τη δουλειά — εκεί που λες ότι σε βολεύει.</li>
+          <li>Αν κάποια μέρα δεν έχεις χρόνο για άλλη άσκηση, μόνο η <strong>αναπνοή διαφράγματος 5 λεπτά</strong> μετράει.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rest-card">
+      <div class="rest-title">🛋️ Υπόλοιπες μέρες — Συνέχισε τη βόλτα σου κανονικά</div>
+      <p>Τις άλλες μέρες κάνεις τη συνηθισμένη σου βόλτα κανονικά. Δεν χρειάζεται να κάνεις τίποτα επιπλέον — η καθημερινή σου δραστηριότητα μετράει.</p>
+    </div>
+
+  </div><!-- end week1 -->
+
+  <!-- ===== WEEK 2 ===== -->
+  <div class="week-section" id="week2">
+
+    <div class="week-intro">
+      <p><strong>Στόχος εβδομάδας 2:</strong> Ξέρεις ήδη τις ασκήσεις. Αυξάνουμε ελαφρά — <strong>+1 σετ στη Μέρα Α</strong>, <strong>+5 λεπτά περπάτημα στη Μέρα Β</strong>, και η Μέρα Γ μένει ίδια (δεν βιαζόμαστε εκεί). Στο τέλος κάνουμε την πρώτη επανεκτίμηση.</p>
+    </div>
+
+    <!-- DAY A W2 -->
+    <div class="day-card">
+      <div class="day-header type-a">
+        <div><div class="day-name">Μέρα Α — Δύναμη &amp; Ισορροπία</div><div class="day-theme">+1 σετ παντού — παρατήρησε τη διαφορά από εβδ. 1</div></div>
+        <div class="day-badge">~35 λεπτά</div>
+      </div>
+
+      <div class="phase-block warmup">
+        <div class="phase-label">🔆 Ζέσταμα — 5 λεπτά</div>
+        <p>Ίδιο ζέσταμα με εβδ. 1. Βήματα στη θέση + κύκλοι ώμων + βαθιές αναπνοές.</p>
+      </div>
+
+      <div class="exercises-block">
+        <div class="exercises-title">🏋️ Ασκήσεις</div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Σηκωθείτε – Καθίστε από καρέκλα</div>
+              <div class="exercise-sets sets-green">4 σετ × 10 επαναλήψεις (+1 σετ)</div>
+              <div class="exercise-desc">Ίδια εκτέλεση. Αυτή τη φορά 4 σετ αντί για 3. Αν ήταν εύκολο την εβδ. 1, προσπάθησε να χρησιμοποιείς λιγότερο τα χέρια — αλλά μόνο αν νιώθεις σταθερή.</div>
+              <div class="exercise-tip tip-green"><strong>Σημάδι προόδου:</strong> Αν σήμερα νιώθεις πιο εύκολο από εβδ. 1 — αυτό σημαίνει ότι έχεις ήδη βελτιωθεί!</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Σηκωθείτε – Καθίστε από Καρέκλα', 'sit_to_stand'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Άρση στις μύτες των ποδιών</div>
+              <div class="exercise-sets sets-green">4 σετ × 12 επαναλήψεις (+1 σετ)</div>
+              <div class="exercise-desc">Ίδια εκτέλεση. 4 σετ. Αν θέλεις να δυσκολέψει: κράτα την κορυφή για 3 δευτερόλεπτα αντί για 2 πριν κατεβείς.</div>
+              <div class="exercise-tip tip-green"><strong>Bonus:</strong> Κάνε τις κινήσεις ρυθμικά με μουσική που σου αρέσει — περνάει πιο εύκολα!</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Άρση στις Μύτες (Calf Raises)', 'calf_raises'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Άρση γονάτου (καθιστά)</div>
+              <div class="exercise-sets sets-green">3 σετ × 12 επαναλήψεις / πόδι (+1 σετ)</div>
+              <div class="exercise-desc">Ίδια εκτέλεση. 3 σετ αντί για 2. Αν θέλεις πρόκληση, κράτα το γόνατο ψηλά για 3 δευτ. αντί για 2.</div>
+              <div class="exercise-tip tip-green"><strong>Τι παρατηρείς:</strong> Αν σήμερα κουράζεσαι λιγότερο — αυτοί είναι οι μύες που δυναμώνουν.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Άρση Γονάτου Καθιστά', 'knee_lifts'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Ισορροπία σε ένα πόδι</div>
+              <div class="exercise-sets sets-green">3 σετ × 25 δευτερόλεπτα / πόδι (+1 σετ, +5'')</div>
+              <div class="exercise-desc">Ίδια εκτέλεση. 25 δευτερόλεπτα αντί για 20. Το χέρι πάντα στον τοίχο — αυτό δεν αλλάζει ποτέ.</div>
+              <div class="exercise-tip tip-red"><strong>Ασφάλεια:</strong> Χέρι πάντα στον τοίχο. Λόγω αντιπηκτικών, μία πτώση έχει συνέπειες. Δεν αξίζει τον κίνδυνο.</div>
+            </div>
+            <a class="video-col" href="#" onclick="openModal('Ισορροπία σε Ένα Πόδι', 'single_leg_balance'); return false;"><div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="video-label">Δες βίντεο</div></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="phase-block cooldown">
+        <div class="phase-label">❄️ Ψύξη — 5 λεπτά</div>
+        <p>Ίδια ψύξη με εβδ. 1. Αναπνοές + τέντωμα ποδιών + κύκλοι αστραγάλων. Μέτρα πίεση 10 λεπτά μετά και γράψε στο ημερολόγιο.</p>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-title">📝 Σημειώσεις Μέρα Α, Εβδ. 2</div>
+        <ul>
+          <li>Φυσιολογικό να νιώσεις λίγο πιο κουρασμένη — κάνεις ένα επιπλέον σετ παντού.</li>
+          <li>Γράψε: πόσο εύκολο/δύσκολο σου φάνηκε σε κλίμακα 1–10. Θα χρειαστεί για την επανεκτίμηση.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAY B W2 -->
+    <div class="day-card">
+      <div class="day-header type-b">
+        <div><div class="day-name">Μέρα Β — Περπάτημα</div><div class="day-theme">+5 λεπτά από εβδ. 1</div></div>
+        <div class="day-badge">~35 λεπτά</div>
+      </div>
+
+      <div class="phase-block warmup">
+        <div class="phase-label">🔆 Ζέσταμα — 5 λεπτά</div>
+        <p>Ίδιο αργό ξεκίνημα — 5 λεπτά πολύ χαλαρό περπάτημα.</p>
+      </div>
+
+      <div class="exercises-block">
+        <div class="exercises-title blue">🚶 Κύριο Περπάτημα</div>
+        <div class="exercise-item">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name">Περπάτημα 25 λεπτών</div>
+              <div class="exercise-sets sets-blue">+5 λεπτά από εβδ. 1</div>
+              <div class="exercise-desc">Ίδιος ρυθμός — αλλά 25 λεπτά αντί για 20. Αν κουραστείς στα 20 — σταμάτα. 20 λεπτά είναι εξαιρετικό. Δεν βιαζόμαστε.</div>
+              <div class="exercise-tip tip-blue"><strong>Παρατήρησε:</strong> Αν σήμερα 20 λεπτά σου φαίνονται πιο εύκολα από την εβδ. 1 — η αντοχή σου έχει ήδη βελτιωθεί.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-block cooldown" style="background:#e8f0fb;">
+        <div class="phase-label" style="color:var(--blue);">❄️ Ψύξη — 5 λεπτά</div>
+        <p>Τελευταία 5 λεπτά πολύ αργό βάδισμα. Μη σταματάς απότομα.</p>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-title">📝 Σημειώσεις Μέρα Β, Εβδ. 2</div>
+        <ul>
+          <li>Αν έκανες 25 λεπτά χωρίς πρόβλημα — μπράβο! Σημαίνει ότι η αντοχή σου βελτιώνεται.</li>
+          <li>Αν πόνεσε το δεξί πέλμα — σημείωσε το. Θα το δούμε στην επανεκτίμηση.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAY C W2 -->
+    <div class="day-card">
+      <div class="day-header type-c">
+        <div><div class="day-name">Μέρα Γ — Stretching &amp; Χαλάρωση</div><div class="day-theme">Ίδιο με εβδ. 1 — αυτή η μέρα δεν αυξάνεται</div></div>
+        <div class="day-badge">~20 λεπτά</div>
+      </div>
+
+      <div class="phase-block stretch-bg">
+        <div class="phase-label" style="color:var(--purple);">🔆 Ζέσταμα</div>
+        <p>5 βαθιές αναπνοές — εισπνοή 4 δευτ., εκπνοή 6 δευτ.</p>
+      </div>
+
+      <div class="exercises-block" style="background:#fdfbff;">
+        <div class="exercises-title purple">🧘 Ίδια πρόγραμμα με εβδ. 1</div>
+        <div class="exercise-item" style="border-color:#c9b8e8; background:#faf8ff;">
+          <div class="exercise-main">
+            <div class="exercise-info">
+              <div class="exercise-name" style="color:var(--purple);">Αναπνοή + Αυχένας + Ώμος + Αστράγαλοι + Μηρός</div>
+              <div class="exercise-sets sets-purple">Ίδιο πρόγραμμα, ίδιοι χρόνοι</div>
+              <div class="exercise-desc">Ακριβώς το ίδιο πρόγραμμα με την εβδ. 1. Η μέρα Γ δεν αυξάνεται — είναι για ανάκτηση και χαλάρωση, όχι για πρόοδο ένταση. Αν κάποιο τέντωμα νιώθεις πιο εύκολο τώρα — αυτό είναι ήδη πρόοδος.</div>
+              <div class="exercise-tip tip-purple"><strong>Παρατήρησε:</strong> Αν ο αυχένας ή ο ώμος σου είναι πιο χαλαρός από εβδ. 1 — αυτές οι ασκήσεις δουλεύουν.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-block stretch-bg" style="border-bottom:none;">
+        <div class="phase-label" style="color:var(--purple);">🌙 Κλείσιμο</div>
+        <p>3 βαθιές αναπνοές. Στο τέλος της εβδομάδας 2 κάνουμε την <strong>πρώτη επανεκτίμηση</strong>!</p>
+      </div>
+    </div>
+
+    <div class="rest-card">
+      <div class="rest-title">🛋️ Υπόλοιπες μέρες — Βόλτα κανονικά</div>
+      <p>Συνέχισε τη συνηθισμένη σου βόλτα. Ξεκούραση και καλός ύπνος είναι επίσης μέρος του προγράμματος.</p>
+    </div>
+
+    <!-- REVIEW -->
+    <div class="review-card">
+      <div class="review-card-header">✅ Επανεκτίμηση — Τέλος Εβδομάδας 2</div>
+      <div class="review-card-body">
+        <p>Τσέκαρε τα παρακάτω όταν τα κάνεις. Με βάση αυτά θα αποφασίσουμε αν συνεχίζουμε με την ίδια ένταση ή ανεβαίνουμε.</p>
+        <div class="review-item"><div class="review-check" id="r1" onclick="toggleCheck('r1')"></div><div class="review-text">Ζύγισα τον εαυτό μου το πρωί, νηστική<small>Γράψε το βάρος σε κιλά — στόχος: -0.5 έως -1 κιλό σε 2 εβδομάδες είναι εξαιρετικό</small></div></div>
+        <div class="review-item"><div class="review-check" id="r2" onclick="toggleCheck('r2')"></div><div class="review-text">Μέτρησα τη μέση μου (στο ύψος του αφαλού)<small>Γράψε σε εκατοστά</small></div></div>
+        <div class="review-item"><div class="review-check" id="r3" onclick="toggleCheck('r3')"></div><div class="review-text">Έγραψα τις τιμές πίεσης από το ημερολόγιο<small>Βλέπεις τάση να κατεβαίνει; Αυτό είναι το πιο σημαντικό αποτέλεσμα</small></div></div>
+        <div class="review-item"><div class="review-check" id="r4" onclick="toggleCheck('r4')"></div><div class="review-text">Έγραψα πόσο εύκολο/δύσκολο ήταν κάθε μέρα (1–10)<small>Αν η Μέρα Α φαίνεται κάτω από 6/10 — ανεβαίνουμε. Αν πάνω από 7 — μένουμε ίδια</small></div></div>
+        <div class="review-item"><div class="review-check" id="r5" onclick="toggleCheck('r5')"></div><div class="review-text">Παρατήρησα αλλαγές: ενέργεια, ισορροπία, κούραση στη βόλτα<small>Γράψε έστω μία παρατήρηση</small></div></div>
+        <div class="review-item"><div class="review-check" id="r6" onclick="toggleCheck('r6')"></div><div class="review-text">Έστειλα τα αποτελέσματα στον/στην personal trainer μου<small>Με βάση αυτά ετοιμάζεται το πρόγραμμα εβδ. 3–4</small></div></div>
+        <div class="review-result" id="reviewResult"></div>
+      </div>
+    </div>
+
+  </div><!-- end week2 -->
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalTitle">Βίντεο Άσκησης</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p>Πάτα τον σύνδεσμο για να δεις το βίντεο στο YouTube. Αν δυσκολεύεσαι, ζήτα βοήθεια από κάποιον να σου το ανοίξει:</p>
+      <ul class="video-links-list" id="videoLinks"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+function showWeek(n){document.querySelectorAll('.week-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.week-tab').forEach(t=>t.classList.remove('active'));document.getElementById('week'+n).classList.add('active');document.querySelectorAll('.week-tab')[n-1].classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+
+var reviewChecked=JSON.parse(localStorage.getItem('reviewCheckedV3')||'{}');
+function toggleCheck(id){var el=document.getElementById(id);el.classList.toggle('done');el.textContent=el.classList.contains('done')?'✓':'';reviewChecked[id]=el.classList.contains('done');localStorage.setItem('reviewCheckedV3',JSON.stringify(reviewChecked));updateReviewResult();}
+function updateReviewResult(){var total=Object.keys(reviewChecked).filter(k=>reviewChecked[k]).length;var el=document.getElementById('reviewResult');if(total>=6){el.className='review-result green-result';el.textContent='🎉 Τέλεια! Έκανες όλα τα βήματα. Στείλε τα αποτελέσματα!';}else if(total>=4){el.className='review-result stay-result';el.textContent='👍 Σχεδόν! Μη ξεχάσεις τα υπόλοιπα βήματα.';}else{el.className='review-result';}}
+Object.keys(reviewChecked).forEach(function(id){if(reviewChecked[id]){var el=document.getElementById(id);if(el){el.classList.add('done');el.textContent='✓';}}});
+updateReviewResult();
+
+var DAYS=[
+  {key:'w1a',label:'Α',emoji:'🏋️',type:'a',week:1},
+  {key:'w1b',label:'Β',emoji:'🚶',type:'b',week:1},
+  {key:'w1c',label:'Γ',emoji:'🧘',type:'c',week:1},
+  {key:'w2a',label:'Α',emoji:'🏋️',type:'a',week:2},
+  {key:'w2b',label:'Β',emoji:'🚶',type:'b',week:2},
+  {key:'w2c',label:'Γ',emoji:'🧘',type:'c',week:2},
+];
+var progress=JSON.parse(localStorage.getItem('gymProgressV3')||'{}');
+function buildDots(days,cid){var c=document.getElementById(cid);days.forEach(function(d){var done=progress[d.key];var div=document.createElement('div');div.className='day-dot type-'+d.type+(done?' done-'+d.type:'');div.innerHTML='<span class="dot-emoji">'+(done?'✓':d.emoji)+'</span><span class="dot-label">'+d.label+'</span>';div.title='Πάτα για να σημειώσεις ως ολοκληρωμένη';div.onclick=function(){progress[d.key]=!progress[d.key];localStorage.setItem('gymProgressV3',JSON.stringify(progress));var nowDone=progress[d.key];div.className='day-dot type-'+d.type+(nowDone?' done-'+d.type:'');div.querySelector('.dot-emoji').textContent=nowDone?'✓':d.emoji;updateProgressBar();};c.appendChild(div);});}
+function updateProgressBar(){var done=DAYS.filter(function(d){return progress[d.key];}).length;var pct=Math.round((done/DAYS.length)*100);document.getElementById('progressFill').style.width=pct+'%';var msg=done===0?'Πάτα σε μια μέρα για να τη σημειώσεις ως ολοκληρωμένη!':'Έχεις κάνει <span>'+done+' από '+DAYS.length+'</span> μέρες — '+pct+'%'+(done>=DAYS.length?' 🎉 Μπράβο! Τελείωσες τις 2 εβδομάδες!':'');document.getElementById('progressStats').innerHTML=msg;}
+buildDots(DAYS.filter(function(d){return d.week===1;}),'week1dots');
+buildDots(DAYS.filter(function(d){return d.week===2;}),'week2dots');
+updateProgressBar();
+
+var logEntries=JSON.parse(localStorage.getItem('gymLogV3')||'[]');
+var selectedMood='';
+function toggleLog(){var b=document.getElementById('logBody');var a=document.getElementById('logToggle');b.classList.toggle('open');a.classList.toggle('open');}
+function selectMood(btn,emoji){document.querySelectorAll('.mood-btn').forEach(function(b){b.classList.remove('selected');});btn.classList.add('selected');selectedMood=emoji;}
+function addLogEntry(){var before=document.getElementById('logBefore').value.trim();var after=document.getElementById('logAfter').value.trim();var day=document.getElementById('logDay').value;var diff=document.getElementById('logDiff').value;if(!before&&!after){alert('Γράψε τουλάχιστον μία τιμή πίεσης!');return;}var now=new Date();var dateStr=now.toLocaleDateString('el-GR',{day:'2-digit',month:'2-digit'});logEntries.unshift({date:dateStr,before:before,after:after,day:day,diff:diff,mood:selectedMood});localStorage.setItem('gymLogV3',JSON.stringify(logEntries));document.getElementById('logBefore').value='';document.getElementById('logAfter').value='';selectedMood='';document.querySelectorAll('.mood-btn').forEach(function(b){b.classList.remove('selected');});renderLog();}
+function deleteLogEntry(idx){logEntries.splice(idx,1);localStorage.setItem('gymLogV3',JSON.stringify(logEntries));renderLog();}
+function renderLog(){var ul=document.getElementById('logEntries');var empty=document.getElementById('logEmpty');if(!logEntries.length){ul.innerHTML='';empty.style.display='';return;}empty.style.display='none';ul.innerHTML=logEntries.map(function(e,i){var pt=[e.before?('Πριν: '+e.before):'',e.after?('Μετά: '+e.after):''].filter(Boolean).join(' · ');return'<li class="log-entry"><div class="log-entry-info"><div class="log-entry-date">'+e.date+' — '+e.day+'</div><div class="log-entry-values">'+pt+' · '+e.diff+'/10</div></div><div class="log-entry-feeling">'+(e.mood||'')+'</div><button class="log-entry-del" onclick="deleteLogEntry('+i+')" title="Διαγραφή">✕</button></li>';}).join('');}
+renderLog();
+
+var videoData={
+  sit_to_stand:[{label:'Σηκωθείτε – Καθίστε από Καρέκλα',url:'https://www.youtube.com/shorts/nrcJ12gpSyc'}],
+  calf_raises:[{label:'Άρση στις Μύτες των Ποδιών (ορθιαστά)',url:'https://www.youtube.com/shorts/mT1UWhqOwTI'}],
+  knee_lifts:[{label:'Άρση Γονάτου (καθιστά)',url:'https://www.youtube.com/shorts/bswih_eUzP0'}],
+  single_leg_balance:[{label:'Ισορροπία σε Ένα Πόδι',url:'https://www.youtube.com/shorts/8wWSRQceaXU'}],
+  breathing:[{label:'Αναπνοή Διαφράγματος',url:'https://www.youtube.com/shorts/px6BZo-o6_8'}],
+  neck_stretch:[{label:'Τέντωμα Αυχένα — Ήπιο',url:'https://www.youtube.com/shorts/K0i4EMnAKzE'}],
+  shoulder_stretch:[{label:'Τέντωμα Ώμου',url:'https://www.youtube.com/shorts/ge1bGEWO0y4'}],
+  thigh_stretch:[{label:'Τέντωμα Μηρού (καθιστά)',url:'https://www.youtube.com/shorts/dxXJhmXWlpg'}]
+};
+function openModal(title,key){document.getElementById('modalTitle').textContent=title;var links=videoData[key]||[];document.getElementById('videoLinks').innerHTML=links.map(function(v){return'<li><a href="'+v.url+'" target="_blank"><span class="yt">YouTube</span>'+v.label+'</a></li>';}).join('');document.getElementById('videoModal').classList.add('open');}
+function closeModal(){document.getElementById('videoModal').classList.remove('open');}
+document.getElementById('videoModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
+</body>
+</html>
